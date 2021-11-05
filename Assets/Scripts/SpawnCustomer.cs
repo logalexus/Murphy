@@ -8,27 +8,43 @@ public class SpawnCustomer : MonoBehaviour
     [SerializeField] private Customer _prefab;
     [SerializeField] private Queue _queue;
 
+    public float TimeSpawn
+    {
+        get => _timeSpawn;
+        set
+        {
+            _timeSpawn = value;
+            StopAllCoroutines();
+            StartCoroutine(Spawn(value));
+        }
+
+    }
+
+    private float _timeSpawn = 2;
+
     private void Start()
     {
         CreateCustomer();
-        StartCoroutine(Spawn(Random.Range(1,4)));
+        StartCoroutine(Spawn(TimeSpawn));
     }
 
-    IEnumerator Spawn(int time)
+    IEnumerator Spawn(float time)
     {
         while (true)
         {
             yield return new WaitForSeconds(time);
-            if (_queue.CheckCountCustomers(5))
-                CreateCustomer();
+            CreateCustomer();
         }
     }
 
-    private void CreateCustomer()
+    public void CreateCustomer()
     {
-        Customer customer = Instantiate(_prefab, transform.parent);
-        customer.SetLeavePoint(_leavePoint.position);
-        customer.transform.position = _spawnPoint.position;
-        _queue.JoinInQueue(customer);
+        if (_queue.CheckCountCustomers(5))
+        {
+            Customer customer = Instantiate(_prefab, transform.parent);
+            customer.SetLeavePoint(_leavePoint.position);
+            customer.transform.position = _spawnPoint.position;
+            _queue.JoinInQueue(customer);
+        }
     }
 }

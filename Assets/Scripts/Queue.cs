@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Queue : MonoBehaviour
 {
     [SerializeField] private CashBox _cashBox;
     [SerializeField] private BoxCollider2D _trigger;
+
+    public UnityAction PlayerInQueue;
+    public UnityAction PlayerOutQueue;
     
     private List<Customer> _queue;
     private bool _playerInQueue = false;
@@ -43,14 +47,14 @@ public class Queue : MonoBehaviour
         if (collision.TryGetComponent(out Player player))
         {
             foreach (var customer in _queue)
-            {
                 customer.UpdatePosition();
-            }
+
             if (_playerInQueue)
                 StopAllCoroutines();
             else
                 _queue.Add(player.GetComponent<Customer>());
             _playerInQueue = true;
+            PlayerInQueue?.Invoke();
         }
     }
 
@@ -62,6 +66,7 @@ public class Queue : MonoBehaviour
             {
                 _queue.Remove(player.GetComponent<Customer>());
                 _playerInQueue = false;
+                PlayerOutQueue?.Invoke();
             }
             else
                 StartCoroutine(Cooldown(player.GetComponent<Customer>()));
@@ -81,6 +86,7 @@ public class Queue : MonoBehaviour
             _queue.Remove(customer);
             _trigger.enabled = false;
             _playerInQueue = false;
+            PlayerOutQueue?.Invoke();
         }
     }
 
@@ -92,10 +98,7 @@ public class Queue : MonoBehaviour
             _trigger.enabled = true;
         }
         else
-        {
             _trigger.offset = _queue[_queue.IndexOf(Player.Instanse.GetComponent<Customer>()) - 1].transform.localPosition + Vector3.up * 1f;
-
-        }
     }
     
     public bool CheckCountCustomers(int count)
