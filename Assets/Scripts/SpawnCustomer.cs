@@ -17,8 +17,9 @@ public class SpawnCustomer : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(3f);
-            Instantiate(_prefab, _spawnPoint);
-            _queue.JoinInQueue(_prefab);
+            Customer customer = Instantiate(_prefab, transform.parent);
+            customer.transform.position = _spawnPoint.position;
+            _queue.JoinInQueue(customer);
         }
     }
 }
