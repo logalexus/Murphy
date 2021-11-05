@@ -6,12 +6,11 @@ public class Queue : MonoBehaviour
 {
     [SerializeField] private CashBox _cashBox;
     [SerializeField] private BoxCollider2D _trigger;
-
-    private float _offset = 1.2f;
+    
     private List<Customer> _queue;
     private bool _playerInQueue = false;
 
-    private void Start()
+    private void Awake()
     {
         _queue = new List<Customer>();
     }
@@ -26,30 +25,27 @@ public class Queue : MonoBehaviour
             _queue[_queue.Count - 1].Init(ñustomer);
         }
         _queue.Add(ñustomer);
-
-        //if (!_playerInQueue)
-            //_trigger.offset = new Vector2(_trigger.offset.x, _trigger.offset.y + _offset);
-
     }
 
     public void ExitFromQueue(Customer ñustomer)
     {
-
-
         _queue.Remove(ñustomer);
-        Destroy(ñustomer.gameObject);
-        ñustomer = null;
-
-
-        //if (!_playerInQueue)
-           // _trigger.offset = new Vector2(_trigger.offset.x, _trigger.offset.y - _offset);
-
+        ñustomer.Leave(() =>
+        {
+            _queue[0].Init(null, _cashBox, () => StandTriggerToEndQueue());
+        });
+        if (_queue.IndexOf(Player.Instanse.GetComponent<Customer>()) == 0)
+            _trigger.offset = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Player player))
         {
+            foreach (var customer in _queue)
+            {
+                customer.UpdatePosition();
+            }
             if (_playerInQueue)
                 StopAllCoroutines();
             else
@@ -62,29 +58,50 @@ public class Queue : MonoBehaviour
     {
         if (collision.TryGetComponent(out Player player))
         {
-            StartCoroutine(Cooldown(player.GetComponent<Customer>()));
+            if (_queue[_queue.Count - 1] == player.GetComponent<Customer>())
+            {
+                _queue.Remove(player.GetComponent<Customer>());
+                _playerInQueue = false;
+            }
+            else
+                StartCoroutine(Cooldown(player.GetComponent<Customer>()));
+
         }
     }
 
     IEnumerator Cooldown(Customer customer)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         int playerQueueIndex = _queue.IndexOf(customer);
         if (_queue.Count - 1 != playerQueueIndex)
         {
-            _queue[playerQueueIndex + 1].Init(_queue[playerQueueIndex - 1], _cashBox, () => StandTriggerToEndQueue());
+
+            _queue[playerQueueIndex + 1].Init(playerQueueIndex == 0 ? null : _queue[playerQueueIndex - 1], _cashBox, () => StandTriggerToEndQueue());
             _queue.Remove(customer);
-           // _trigger.offset = new Vector2(_trigger.offset.x, _trigger.offset.y + (_queue.Count - playerQueueIndex) * _offset);
+            _trigger.enabled = false;
             _playerInQueue = false;
         }
     }
 
     private void StandTriggerToEndQueue()
     {
-        _trigger.offset = _queue[_queue.Count - 1].transform.localPosition + Vector3.up * 1f;
+        if (!_playerInQueue)
+        {
+            _trigger.offset = _queue[_queue.Count - 1].transform.localPosition + Vector3.up * 1f;
+            _trigger.enabled = true;
+        }
+        else
+        {
+            _trigger.offset = _queue[_queue.IndexOf(Player.Instanse.GetComponent<Customer>()) - 1].transform.localPosition + Vector3.up * 1f;
+
+        }
     }
     
+    public bool CheckCountCustomers(int count)
+    {
+        return _queue.Count <= count;
+    }
 }
 
 

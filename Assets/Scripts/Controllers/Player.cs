@@ -7,5 +7,10 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    
+    public static Player Instanse;
+
+    private void Awake()
+    {
+        Instanse = this;
+    }
 }
