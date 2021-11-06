@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _player;
+    
+    private Animator _animator;
 
     private float _verticalInput;
     private float _horizontalInput;
@@ -15,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     { 
         GameController.Instance.StartGame += () => _isMove = true;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -27,13 +30,16 @@ public class PlayerMove : MonoBehaviour
     {
         if (_isMove)
         {
+            _animator.SetBool("Walk", false);
             Vector2 dir = Vector2.right * _horizontalInput + Vector2.up * _verticalInput;
             _player.velocity = dir;
 
             if (dir != Vector2.zero)
             {
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), 0.5f);
+                _animator.SetBool("Walk", true);
+                _animator.SetFloat("Angle", angle);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), 0.5f);
             }
 
 
