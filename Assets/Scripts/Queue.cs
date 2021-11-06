@@ -52,7 +52,10 @@ public class Queue : MonoBehaviour
             if (_playerInQueue)
                 StopAllCoroutines();
             else
+            {
+                _queue[_queue.Count - 1].Init(player.GetComponent<Customer>());
                 _queue.Add(player.GetComponent<Customer>());
+            }
             _playerInQueue = true;
             PlayerInQueue?.Invoke();
         }
@@ -64,30 +67,28 @@ public class Queue : MonoBehaviour
         {
             if (_queue[_queue.Count - 1] == player.GetComponent<Customer>())
             {
-                _queue.Remove(player.GetComponent<Customer>());
-                _playerInQueue = false;
-                PlayerOutQueue?.Invoke();
+                StartCoroutine(Cooldown(player.GetComponent<Customer>(), 1f));
             }
             else
-                StartCoroutine(Cooldown(player.GetComponent<Customer>()));
+                StartCoroutine(Cooldown(player.GetComponent<Customer>(), 1f));
 
         }
     }
 
-    IEnumerator Cooldown(Customer customer)
+    IEnumerator Cooldown(Customer customer, float time)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
 
         int playerQueueIndex = _queue.IndexOf(customer);
         if (_queue.Count - 1 != playerQueueIndex)
         {
-
             _queue[playerQueueIndex + 1].Init(playerQueueIndex == 0 ? null : _queue[playerQueueIndex - 1], _cashBox, () => StandTriggerToEndQueue());
-            _queue.Remove(customer);
+            _queue[playerQueueIndex - 1].Init(_queue[playerQueueIndex + 1]);
             _trigger.enabled = false;
+        }
+            _queue.Remove(customer);
             _playerInQueue = false;
             PlayerOutQueue?.Invoke();
-        }
     }
 
     private void StandTriggerToEndQueue()

@@ -7,6 +7,7 @@ public class SpawnCustomer : MonoBehaviour
     [SerializeField] private Transform _leavePoint;
     [SerializeField] private Customer _prefab;
     [SerializeField] private Queue _queue;
+    
 
     public float TimeSpawn
     {
@@ -32,8 +33,9 @@ public class SpawnCustomer : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(time);
+            
             CreateCustomer();
+            yield return new WaitForSeconds(time);
         }
     }
 
