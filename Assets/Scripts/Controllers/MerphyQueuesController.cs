@@ -18,8 +18,8 @@ public class MerphyQueuesController : MonoBehaviour
         _queueRight.PlayerInQueue += () => PlayerEnterRightQueue();
         _queueRight.PlayerOutQueue += () => PlayerExitRightQueue();
 
-        _spawnCustomerRight.TimeSpawn = 0.5f;
-        _spawnCustomerLeft.TimeSpawn = 0.5f;
+        _spawnCustomerRight.TimeSpawn = Random.Range(4f, 7f) / 10;
+        _spawnCustomerLeft.TimeSpawn = Random.Range(4f, 7f) / 10;
     }
 
     private void PlayerEnterLeftQueue()
@@ -34,7 +34,7 @@ public class MerphyQueuesController : MonoBehaviour
     {
         _cashBoxRight.TimeComplete = Random.Range(5, 7);
         _cashBoxLeft.TimeComplete = Random.Range(5, 7);
-        _spawnCustomerRight.TimeSpawn = 0.3f;
+        _spawnCustomerRight.TimeSpawn = 0.2f;
         _spawnCustomerLeft.TimeSpawn = 5f;
 
     }
@@ -52,7 +52,7 @@ public class MerphyQueuesController : MonoBehaviour
         _cashBoxRight.TimeComplete = Random.Range(5, 7);
         _cashBoxLeft.TimeComplete = Random.Range(5, 7);
         _spawnCustomerRight.TimeSpawn = 5f;
-        _spawnCustomerLeft.TimeSpawn = 0.3f;
+        _spawnCustomerLeft.TimeSpawn = 0.2f;
 
     }
 }

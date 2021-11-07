@@ -58,7 +58,6 @@ public class Customer : MonoBehaviour
         {
             if (_backCustomer != null)
                 _backCustomer.UpdatePosition();
-            else
                 _callbackLastCustomer?.Invoke();
         });
     }
@@ -69,7 +68,6 @@ public class Customer : MonoBehaviour
         {
             if (_backCustomer != null)
                 _backCustomer.UpdatePosition();
-            else
                 _callbackLastCustomer?.Invoke();
         });
     }
