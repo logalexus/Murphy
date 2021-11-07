@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainTheme: {fileID: 8300000, guid: 0b448337a26012245ab3cf79e50acaf0, type: 3}
   _dog: {fileID: 8300000, guid: 0d952e5911ec9294cbf45a49136613f9, type: 3}
-  _explosion: {fileID: 8300000, guid: f8187dfe3c7dacd44878e3c3574a3963, type: 3}
-  _click: {fileID: 8300000, guid: 1aff7f27f4ac865438f7f0ef7c1cad3a, type: 3}
+  _success: {fileID: 8300000, guid: a262fe92f993ffe45972b2bb591b5022, type: 3}

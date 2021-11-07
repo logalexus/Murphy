@@ -25,6 +25,7 @@ public class FinalScreenGoodWork : IteractPanel
         foreach (var item in _panels)
             item.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
         _finalScreenGoodWorkTransition.OpenAnim();
+        AudioController.Instance.PlaySFX(AudioController.Instance.Sounds.Success);
 
     }
 

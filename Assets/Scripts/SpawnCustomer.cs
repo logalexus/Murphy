@@ -41,7 +41,7 @@ public class SpawnCustomer : MonoBehaviour
 
     public void CreateCustomer()
     {
-        if (_queue.CheckCountCustomers(5))
+        if (_queue.CheckCountCustomers(3))
         {
             Customer customer = Instantiate(_prefab, transform.parent);
             customer.SetLeavePoint(_leavePoint.position);
