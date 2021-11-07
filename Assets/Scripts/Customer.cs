@@ -10,13 +10,15 @@ public class Customer : MonoBehaviour
     private Vector3 _leavePoint;
     private CashBox _cashBox;
     private const float _offset = 1.2f;
-    private const float _duration = 0.3f;
+    private const float _duration = 0.25f;
     private bool _isPlayer = false;
     private UnityAction _callbackLastCustomer;
+    private Animator _animator;
 
     private void Start()
     {
         _isPlayer = TryGetComponent(out Player player);
+        _animator = GetComponent<Animator>();
     }
 
     public void Init(Customer nextCustomer, CashBox cashBox, UnityAction callbackLastCustomer)
@@ -74,6 +76,10 @@ public class Customer : MonoBehaviour
 
     public void Leave(UnityAction callback)
     {
+        if(_leavePoint.x - transform.position.x > 0)
+            _animator.SetBool("Right", true);
+        else _animator.SetBool("Left", true);
+
         transform.DOMove(_leavePoint, _duration).SetEase(Ease.InOutQuad).OnComplete(() =>
         {
             Destroy(gameObject);

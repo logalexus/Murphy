@@ -33,9 +33,9 @@ public class SpawnCustomer : MonoBehaviour
     {
         while (true)
         {
-            
-            CreateCustomer();
             yield return new WaitForSeconds(time);
+            CreateCustomer();
+            
         }
     }
 

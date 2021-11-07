@@ -71,7 +71,7 @@ public class Queue : MonoBehaviour
             }
             else
                 StartCoroutine(Cooldown(player.GetComponent<Customer>(), 1f));
-
+            PlayerOutQueue?.Invoke();
         }
     }
 
@@ -80,15 +80,20 @@ public class Queue : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         int playerQueueIndex = _queue.IndexOf(customer);
-        if (_queue.Count - 1 != playerQueueIndex)
+        if (_queue.Count - 1 != playerQueueIndex && playerQueueIndex != 0)
         {
             _queue[playerQueueIndex + 1].Init(playerQueueIndex == 0 ? null : _queue[playerQueueIndex - 1], _cashBox, () => StandTriggerToEndQueue());
             _queue[playerQueueIndex - 1].Init(_queue[playerQueueIndex + 1]);
             _trigger.enabled = false;
         }
-            _queue.Remove(customer);
+        if (playerQueueIndex == 0)
+        {
+            _queue[playerQueueIndex + 1].Init(null, _cashBox, () => StandTriggerToEndQueue());
+        }
+
+        _queue.Remove(customer);
             _playerInQueue = false;
-            PlayerOutQueue?.Invoke();
+            
     }
 
     private void StandTriggerToEndQueue()
@@ -105,6 +110,11 @@ public class Queue : MonoBehaviour
     public bool CheckCountCustomers(int count)
     {
         return _queue.Count <= count;
+    }
+
+    public int GetIndexCustomer(Customer customer)
+    {
+        return _queue.IndexOf(customer);
     }
 }
 

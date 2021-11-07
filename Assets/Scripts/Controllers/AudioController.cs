@@ -43,7 +43,7 @@ public class AudioController : MonoBehaviour
         _musicSource1.loop = true;
         _sfxSourceLoop.loop = true;
         _ambientSource.loop = true;
-        _ambientSource.clip = Sounds.AmbientFactory;
+       // _ambientSource.clip = Sounds.AmbientFactory;
         _ambientSource.volume = 0;
         PlayMusic(_sounds.MainTheme);
         StartAmbient();

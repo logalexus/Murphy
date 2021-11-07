@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e536a2b0f0b05847bab5c7ae718eb39, type: 3}
   m_Name: Sounds
   m_EditorClassIdentifier: 
-  _mainTheme: {fileID: 8300000, guid: 4ecb4677b54b6be4fb19dbe6d7ce320a, type: 3}
-  _ambientFactory: {fileID: 8300000, guid: e301c4667f93cfb4388973a7a3f7d3e4, type: 3}
-  _warnignSignal: {fileID: 8300000, guid: 83eb24889b6a9154eb39c600d890a84e, type: 3}
+  _mainTheme: {fileID: 8300000, guid: 0b448337a26012245ab3cf79e50acaf0, type: 3}
+  _dog: {fileID: 8300000, guid: 0d952e5911ec9294cbf45a49136613f9, type: 3}
   _explosion: {fileID: 8300000, guid: f8187dfe3c7dacd44878e3c3574a3963, type: 3}
   _click: {fileID: 8300000, guid: 1aff7f27f4ac865438f7f0ef7c1cad3a, type: 3}
