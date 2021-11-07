@@ -34,7 +34,7 @@ public class MerphyQueuesController : MonoBehaviour
     {
         _cashBoxRight.TimeComplete = Random.Range(5, 7);
         _cashBoxLeft.TimeComplete = Random.Range(5, 7);
-        _spawnCustomerRight.TimeSpawn = 0.2f;
+        _spawnCustomerRight.TimeSpawn = 0.4f;
         _spawnCustomerLeft.TimeSpawn = 5f;
 
     }
@@ -52,7 +52,7 @@ public class MerphyQueuesController : MonoBehaviour
         _cashBoxRight.TimeComplete = Random.Range(5, 7);
         _cashBoxLeft.TimeComplete = Random.Range(5, 7);
         _spawnCustomerRight.TimeSpawn = 5f;
-        _spawnCustomerLeft.TimeSpawn = 0.2f;
+        _spawnCustomerLeft.TimeSpawn = 0.4f;
 
     }
 }

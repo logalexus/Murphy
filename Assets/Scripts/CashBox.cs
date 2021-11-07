@@ -4,7 +4,11 @@ using System.Collections;
 public class CashBox : MonoBehaviour
 {
     [SerializeField] private Queue _queue;
-    
+    [SerializeField] private Dog _dog;
+    [SerializeField] private FinalScreenGoodWork _finalScreenGoodWork;
+
+
+
 
     public float TimeComplete
     {
@@ -25,7 +29,14 @@ public class CashBox : MonoBehaviour
             if (!customer.TryGetComponent(out Player player))
             {
                 StartCoroutine(WaitCustomerOnCashBox(customer, TimeComplete));
-
+            }
+            else if (customer.TryGetComponent(out Player pl) && _queue.GetIndexCustomer(customer) == 0)
+            {
+                int value = Random.Range(0, 10);
+                if (value > 6)
+                    _dog.Attack(pl);
+                else
+                    _finalScreenGoodWork.Open(gameObject);
             }
 
         }
